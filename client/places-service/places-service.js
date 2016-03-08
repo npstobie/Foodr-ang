@@ -10,7 +10,7 @@ angular.module('app.places-service', [])
 	scopeData.getLocation = function(coordinates) {
 		$http.post('/location', coordinates).success(function(data){
 		  	var obj;
-		  	scopeData.places = data;
+		  	console.log(scopeData.places)
 		  	if (scopeData.places[scopeData.idx].photos) {
 		  		obj = {
 		    		id: scopeData.places[scopeData.idx].place_id,
@@ -24,16 +24,37 @@ angular.module('app.places-service', [])
 		    $http.post('/currentLocation', obj)
 		      .success(function(data){
 		      scopeData.current = formatData(data.result);
-		      scopeData.idx++;
 		    }).error(function(data){
 		      console.log('ERROR invalid request to google place_id', data);
 		    })
+
+		    scopeData.idx++;
+	    	if (scopeData.places[scopeData.idx].photos) {
+	    		obj = {
+	      			id: scopeData.places[scopeData.idx].place_id,
+	      			ref: scopeData.places[scopeData.idx].photos[0].photo_reference
+	      		}
+	    	} else {
+	    		obj = {
+	    		  	id: scopeData.places[scopeData.idx].place_id,
+	    		}
+	    	}
+	      	$http.post('/currentLocation', obj)
+	        	.success(function(data){
+	       		scopeData.nextPlace = formatData(data.result);
+	       		console.log(scopeData.nextPlace);
+	        	scopeData.idx++;
+	      	}).error(function(data){
+	        	console.log('ERROR invalid request to google place_id', data);
+	      	})
+
 		}).error(function(data){
 		  console.log('ERROR invalid request to google places API');
 		})
 	}
 
 	scopeData.next = function() {
+		scopeData.current = scopeData.nextPlace;
 		if (scopeData.places[scopeData.idx].photos) {
 			obj = {
 	  			id: scopeData.places[scopeData.idx].place_id,
@@ -46,7 +67,7 @@ angular.module('app.places-service', [])
 		}
 		$http.post('/currentLocation', obj)
 		.success(function(data){
-		  scopeData.current = formatData(data.result);
+		  scopeData.nextPlace = formatData(data.result);
 		  scopeData.idx++;
 		}).error(function(data){
 		  console.log('ERROR invalid request to google place_id', data);

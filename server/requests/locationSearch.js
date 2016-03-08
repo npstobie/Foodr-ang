@@ -13,7 +13,7 @@ function search(lat, lon, callback) {
     if (err) {
       console.log(err);
     } else {
-      callback(JSON.parse(res.body).results)
+      callback(JSON.parse(res.body).results);
     }
   })
 }
