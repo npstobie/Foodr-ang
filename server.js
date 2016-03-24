@@ -1,15 +1,12 @@
 var express = require('express'),
+	  dotenv = require('dotenv').config(),
     app = express(),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     port = 3000,
     foodController = require('./server/controllers/food-controller.js'),
-    placesController = require('./server/controllers/places-search.js'),
-	dotenv = require('dotenv');
+    placesController = require('./server/controllers/places-search.js');
 
-	dotenv.load();
-
-// mongoose.connect('mongodb://localhost:27017/foodr-mvp');
 
 app.use(bodyParser.json());
 

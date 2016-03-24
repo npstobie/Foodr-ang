@@ -4,13 +4,13 @@ angular.module('app.places-service', [])
 	var key = "";
 
 	var scopeData = {
-		idx: 0
+		idx: 0,
+		initialized: false
 	};
 
-	scopeData.getLocation = function(coordinates) {
+	scopeData.getLocation = function(coordinates, cb) {
 		$http.post('/location', coordinates).success(function(data){
-		  	var obj;
-		  	console.log(scopeData.places)
+		  	scopeData.places = data;
 		  	if (scopeData.places[scopeData.idx].photos) {
 		  		obj = {
 		    		id: scopeData.places[scopeData.idx].place_id,
@@ -29,6 +29,7 @@ angular.module('app.places-service', [])
 		    })
 
 		    scopeData.idx++;
+
 	    	if (scopeData.places[scopeData.idx].photos) {
 	    		obj = {
 	      			id: scopeData.places[scopeData.idx].place_id,
@@ -42,8 +43,8 @@ angular.module('app.places-service', [])
 	      	$http.post('/currentLocation', obj)
 	        	.success(function(data){
 	       		scopeData.nextPlace = formatData(data.result);
-	       		console.log(scopeData.nextPlace);
 	        	scopeData.idx++;
+	        	cb();
 	      	}).error(function(data){
 	        	console.log('ERROR invalid request to google place_id', data);
 	      	})
@@ -53,7 +54,11 @@ angular.module('app.places-service', [])
 		})
 	}
 
-	scopeData.next = function() {
+	scopeData.uninit = function() {
+		scopeData.initialized = true;
+	}
+
+	scopeData.next = function(cb) {
 		scopeData.current = scopeData.nextPlace;
 		if (scopeData.places[scopeData.idx].photos) {
 			obj = {
@@ -68,6 +73,7 @@ angular.module('app.places-service', [])
 		$http.post('/currentLocation', obj)
 		.success(function(data){
 		  scopeData.nextPlace = formatData(data.result);
+		  cb(formatData(data.result));
 		  scopeData.idx++;
 		}).error(function(data){
 		  console.log('ERROR invalid request to google place_id', data);
@@ -83,7 +89,9 @@ angular.module('app.places-service', [])
 		}
 	} 
 
-	setTimeout(function(){console.log(scopeData)}, 2000);
+	scopeData.watcher = function() {
+		return scopeData;
+	}
 
 	return scopeData;
 
