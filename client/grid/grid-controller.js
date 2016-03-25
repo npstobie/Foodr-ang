@@ -14,22 +14,22 @@ angular.module('app.grid', [])
 	};
 
 	$scope.swipeLeft = function() {
-		$("#buddy1").trigger('swipeleft')
+		$(".buddy").trigger('swipeleft')
 	}
 
 	$scope.swipeRight = function() {
-		$("#buddy1").trigger('swiperight');
+		$(".buddy").trigger('swiperight');
 		$timeout(function(){$location.url('/spot')},600);
 
 	}
 
 	$scope.swipeLeft2 = function() {
 		console.log("HPN")
-		$("#buddy2").trigger('swipeleft')
+		$(".buddy").trigger('swipeleft')
 	}
 
 	$scope.swipeRight2 = function() {
-		$("#buddy2").trigger('swiperight');
+		$(".buddy").trigger('swiperight');
 		$timeout(function(){$location.url('/spot')},600);
 	}
 
