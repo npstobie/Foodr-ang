@@ -18,15 +18,19 @@ angular.module('app.grid', [])
 	}
 
 	$scope.swipeRight = function() {
-		$("#buddy1").trigger('swiperight')
+		$("#buddy1").trigger('swiperight');
+		$timeout(function(){$location.url('/spot')},600);
+
 	}
 
 	$scope.swipeLeft2 = function() {
+		console.log("HPN")
 		$("#buddy2").trigger('swipeleft')
 	}
 
 	$scope.swipeRight2 = function() {
-		$("#buddy2").trigger('swiperight')
+		$("#buddy2").trigger('swiperight');
+		$timeout(function(){$location.url('/spot')},600);
 	}
 
 	// $scope.data = PlacesService.getLocation($scope.coordinates, function(){
@@ -55,6 +59,10 @@ angular.module('app.grid', [])
 				},700)
 			}
 		});
+	}
+
+	$scope.current = function() {
+
 	}
 
 
@@ -90,7 +98,6 @@ angular.module('app.grid', [])
 
 	//JS for tinder cards
 	$(document).ready(function(){
-
     $(".buddy").on("swiperight",function(){
       $(this).addClass('rotate-left').delay(700).fadeOut(1);
       $('.buddy').find('.status').remove();
@@ -102,18 +109,14 @@ angular.module('app.grid', [])
 	    $(this).addClass('rotate-right').delay(700).fadeOut(1);
 	    $scope.next();
 	    $('.buddy').find('.status').remove();
-	    $(this).append('<div class="status dislike">Dislike!</div>');
+	    // $(this).append('<div class="status dislike">Dislike!</div>');
+
 	    if ( $(this).is(':last-child') ) {
 	     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
 	     } else {
 	        $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
 	    } 
   	});
-
-
-
-
 	});
-
 })
 
