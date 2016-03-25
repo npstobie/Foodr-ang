@@ -14,29 +14,23 @@ angular.module('app.grid', [])
 	};
 
 	$scope.swipeLeft = function() {
-		$(".buddy").trigger('swipeleft')
+		$("#buddy1").trigger('swipeleft')
 	}
 
 	$scope.swipeRight = function() {
-		$(".buddy").trigger('swiperight');
-		$timeout(function(){$location.url('/spot')},600);
-
+		$("#buddy1").trigger('swiperight');
 	}
 
 	$scope.swipeLeft2 = function() {
 		console.log("HPN")
-		$(".buddy").trigger('swipeleft')
+		$("#buddy2").trigger('swipeleft')
 	}
 
 	$scope.swipeRight2 = function() {
-		$(".buddy").trigger('swiperight');
+		$("#buddy2").trigger('swiperight');
 		$timeout(function(){$location.url('/spot')},600);
 	}
-
-	// $scope.data = PlacesService.getLocation($scope.coordinates, function(){
-	// 	$timeout(function(){ init() },100)
-	// });
-
+	
 	$scope.next = function() {
 		PlacesService.next(function(obj){
 			if ($scope.change === true) {
@@ -98,19 +92,35 @@ angular.module('app.grid', [])
 
 	//JS for tinder cards
 	$(document).ready(function(){
-    $(".buddy").on("swiperight",function(){
+    $("#buddy1").on("swiperight",function(){
       $(this).addClass('rotate-left').delay(700).fadeOut(1);
-      $('.buddy').find('.status').remove();
-			$timeout(function(){$('.like').trigger('click');},700)
+      $('#buddy1').find('.status').remove();
+			$timeout(function(){$('.like').trigger('click');},10)
 			console.log(PlacesService.current)
     });  
 
-    $(".buddy").on("swipeleft",function(){
+    $("#buddy1").on("swipeleft",function(){
 	    $(this).addClass('rotate-right').delay(700).fadeOut(1);
 	    $scope.next();
-	    $('.buddy').find('.status').remove();
-	    // $(this).append('<div class="status dislike">Dislike!</div>');
+	    $('#buddy1').find('.status').remove();
+	    if ( $(this).is(':last-child') ) {
+	     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
+	     } else {
+	        $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
+	    } 
+  	});
 
+    $("#buddy2").on("swiperight",function(){
+      $(this).addClass('rotate-left').delay(700).fadeOut(1);
+      $('#buddy2').find('.status').remove();
+			$timeout(function(){$('.like').trigger('click');},10)
+			console.log(PlacesService.current)
+    });  
+
+    $("#buddy2").on("swipeleft",function(){
+	    $(this).addClass('rotate-right').delay(700).fadeOut(1);
+	    $scope.next();
+	    $('#buddy2').find('.status').remove();
 	    if ( $(this).is(':last-child') ) {
 	     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
 	     } else {
