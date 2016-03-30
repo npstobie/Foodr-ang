@@ -19,18 +19,22 @@ angular.module('app.grid', [])
 
 	$scope.swipeRight = function() {
 		$("#buddy1").trigger('swiperight');
+		$timeout(function(){$location.url('/spot');},700)
 	}
 
 	$scope.swipeLeft2 = function() {
-		console.log("HPN")
 		$("#buddy2").trigger('swipeleft')
 	}
 
 	$scope.swipeRight2 = function() {
 		$("#buddy2").trigger('swiperight');
-		$timeout(function(){$location.url('/spot')},600);
+		$timeout(function(){$location.url('/spot');},700)
 	}
-	
+
+	$scope.swipeRight3 = function() {
+		$timeout(function(){$location.url('/spot');},700)
+	}
+
 	$scope.next = function() {
 		PlacesService.next(function(obj){
 			if ($scope.change === true) {
@@ -62,7 +66,6 @@ angular.module('app.grid', [])
 
 	$scope.data = function(){
 		var stuff = PlacesService.watcher();
-		console.log(stuff.initialized);
 		if(!stuff.initialized) {
 			PlacesService.uninit();
 			PlacesService.getLocation($scope.coordinates, function(){
@@ -78,7 +81,6 @@ angular.module('app.grid', [])
 
 	function init(){
 		var stuff = PlacesService.watcher();
-		console.log("SHTUFF", stuff)
 		$scope.name = stuff.current.name;
 		$scope.image = stuff.current.image
 		$scope.price = stuff.current.price;
@@ -95,8 +97,7 @@ angular.module('app.grid', [])
     $("#buddy1").on("swiperight",function(){
       $(this).addClass('rotate-left').delay(700).fadeOut(1);
       $('#buddy1').find('.status').remove();
-			$timeout(function(){$('.like').trigger('click');},10)
-			console.log(PlacesService.current)
+			$timeout($scope.swipeRight3,100)
     });  
 
     $("#buddy1").on("swipeleft",function(){
@@ -113,8 +114,7 @@ angular.module('app.grid', [])
     $("#buddy2").on("swiperight",function(){
       $(this).addClass('rotate-left').delay(700).fadeOut(1);
       $('#buddy2').find('.status').remove();
-			$timeout(function(){$('.like').trigger('click');},10)
-			console.log(PlacesService.current)
+			$timeout($scope.swipeRight3,100)
     });  
 
     $("#buddy2").on("swipeleft",function(){

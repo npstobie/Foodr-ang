@@ -16,6 +16,7 @@ function find(req, res) {
 
 function details(req, res) {
   locationSearch.detailSearch(req.body.id, function(data){
+    console.log(data.result.address_components);
     var obj = data;
     if (req.body.ref) {
       urlExpander.expand("https://maps.googleapis.com/maps/api/place/photo?photoreference=" + req.body.ref + "&sensor=false&maxwidth=800&key=" + key, function(err, url) {
