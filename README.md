@@ -1,6 +1,6 @@
 # Foodr
 
-Foodr is a web application that makes it easy to find food near you, with a UX similar to Tindr.
+Foodr is a web application that makes it easy to find food near you using a swipeable UI.
 
 ### Core Technologies used in Foodr
 
